@@ -9,13 +9,13 @@ import random
 def timetest(lcs_alg, l1, l2):
     experiment_times = []
 
-    for i in range(10):
+    for i in range(5):
         start = timer()
         lcs_length = lcs_alg(l1, l2)
         end = timer()
         execution_time = end - start
         experiment_times.append(execution_time)
-        print(experiment_times)  # TO REMOVE FOR EXAM
+        print(experiment_times)
 
     mean = statistics.mean(experiment_times)
     return lcs_length, mean
@@ -25,54 +25,60 @@ def timetest(lcs_alg, l1, l2):
 
 ####################### STRING CREATION #############################
 
-# creates a random string with the preferred length
+# creates two random strings with the preferred length
 def generate_random_string(length):
     uppercase_alphabet = string.ascii_uppercase
-    generated_string = ''.join(random.choice(uppercase_alphabet) for _ in range(length))
-    return generated_string
+    generated_string1 = ''.join(random.choice(uppercase_alphabet) for _ in range(length))
+    generated_string2 = ''.join(random.choice(uppercase_alphabet) for _ in range(length))
+    return generated_string1, generated_string2
 
 
 # creates a list of strings ranging from min_length to max_length
-
 def listofstrings(min_length, max_length):
     list_strings = [generate_random_string(length) for length in range(min_length, max_length + 1)]
     return list_strings
 
+
 # creates strings for best case recursive
-
 def bestcase_strings(length):
-    l1 = []
-    for i in range(length):
-      string = 'A' * i
-      l1.append(string)
+    bestcase = 'A' * length
 
-    return l1
+    return bestcase, bestcase
 
-def worstcase_strings(max_length=16):
-    strings_list1 = []
-    strings_list2 = []
+# creates srings for worst case recursive
+def worstcase_strings(length):
+    string1 = 'A' * length
+    string2 = 'B' * length
 
-    for length in range(max_length + 1):
-        string1 = 'A' * length
-        string2 = 'B' * length
-        strings_list1.append(string1)
-        strings_list2.append(string2)
+    return string1, string2
 
-    return strings_list1, strings_list2
+############################### ALGORITHMS TESTS ###############################
 
-#####################################################################
+def test_lcs_algorithms(strings, algorithm):
+    results = []
 
+    for length in range(1, algorithm.max_length):
+        lcs_lengths = []
+        execution_times = []
 
-def test_algorithms(algorithms, algorithm_names, l1, l2):
-    # dictionary: stores test results to then export to excel
-    result_data = {}
+        for _ in range(strings):
+            str1, str2 = algorithm.string_function(length)
+            print(str1, str2)
 
-    for i, algorithm in enumerate(algorithms):
-        for j in range(len(l1)):
-            length_key = len(l1[j])
-            result, mean_execution_time = timetest(algorithm, l1[j], l2[j])
-            result_data[(algorithm_names[i], length_key)] = (result, mean_execution_time)
+            lcs_length, execution_time = timetest(algorithm.algorithm_function, str1, str2)
 
-    print("Test Results:", result_data)
+            lcs_lengths.append(lcs_length)
+            execution_times.append(execution_time)
 
-    return result_data
+        mean_lcs_length = statistics.mean(lcs_lengths)
+        mean_execution_time = statistics.mean(execution_times)
+
+        item = {
+            'algo_name': f"{algorithm.name}{length}",
+            'mean_lcs_length': mean_lcs_length,
+            'mean_execution_time': mean_execution_time
+        }
+
+        results.append(item)
+
+    return results
