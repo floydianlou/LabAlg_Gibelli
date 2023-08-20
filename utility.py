@@ -32,13 +32,6 @@ def generate_random_string(length):
     generated_string2 = ''.join(random.choice(uppercase_alphabet) for _ in range(length))
     return generated_string1, generated_string2
 
-
-# creates a list of strings ranging from min_length to max_length
-def listofstrings(min_length, max_length):
-    list_strings = [generate_random_string(length) for length in range(min_length, max_length + 1)]
-    return list_strings
-
-
 # creates strings for best case recursive
 def bestcase_strings(length):
     bestcase = 'A' * length
@@ -54,7 +47,7 @@ def worstcase_strings(length):
 
 ############################### ALGORITHMS TESTS ###############################
 
-def test_lcs_algorithms(strings, algorithm):
+def testalgo(strings, algorithm):
     results = []
 
     for length in range(1, algorithm.max_length):

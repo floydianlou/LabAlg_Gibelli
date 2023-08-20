@@ -1,6 +1,6 @@
 import pandas as pd
 import utility
-from algorithm_class import LCSalgorithm
+from algorithmclass import LCSalgorithm
 from bruteforce import bruteforce_lcs
 from recursive import recursive_lcs
 from memoization import memoization_recursive_lcs
@@ -19,9 +19,9 @@ strings_tests = 10
 total_results = []
 
 for algo in algorithms:
-    total_results.extend(utility.test_lcs_algorithms(strings_tests, algo))
+    total_results.extend(utility.testalgo(strings_tests, algo))
 
 export_df = pd.DataFrame(total_results)
 
-excel_file_path = "C:/Users/acgib/Desktop/univ/algorithms laboratory/NEW TESTS.xlsx"
+excel_file_path = "C:/Users/acgib/Desktop/univ/algorithms laboratory/NEW TESTS.xlsx"  #TO BE CHANGED FOR OTHER COMPUTERS
 export_df.to_excel(excel_file_path, index=False, engine='openpyxl')
